@@ -55,15 +55,17 @@ class BertClassifier(LabelStudioMLBase):
             ))
 
     def reset_model(self, pretrained_model, cache_dir, device):
-        model = BertForSequenceClassification.from_pretrained(
+        self.model = BertForSequenceClassification.from_pretrained(
             pretrained_model,
             num_labels=len(self.labels),
             output_attentions=False,
             output_hidden_states=False,
             cache_dir=cache_dir
         )
-        model.to(device)
-        return model
+        self.model.to(device)
+        self.tokenizer = BertTokenizer.from_pretrained(pretrained_model)
+        self.batch_size = 4
+        self.maxlen = 128
 
     def load(self, train_output):
         pretrained_model = train_output['model_path']
