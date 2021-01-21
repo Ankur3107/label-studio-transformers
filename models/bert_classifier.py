@@ -66,6 +66,7 @@ class BertClassifier(LabelStudioMLBase):
         self.tokenizer = BertTokenizer.from_pretrained(pretrained_model)
         self.batch_size = 4
         self.maxlen = 128
+        return self.model
 
     def load(self, train_output):
         pretrained_model = train_output['model_path']
